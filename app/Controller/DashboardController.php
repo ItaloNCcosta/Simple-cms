@@ -17,6 +17,6 @@ class DashboardController extends Controller
 
   public function index(): void
   {
-    echo "Pagina Inicial porra";
+    $this->view('layouts/app');
   }
 }

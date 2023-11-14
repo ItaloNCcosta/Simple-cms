@@ -6,8 +6,8 @@ namespace App\Controller;
 
 abstract class Controller
 {
-  public function view()
+  public function view(string $view, array $data = [])
   {
-    
+    include dirname(__DIR__, 2)."/views/{$view}.php";
   }
 }
