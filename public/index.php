@@ -10,4 +10,4 @@ $dotenv->load(dirname(__DIR__) . '/.env');
 
 ini_set('display_errors', $_ENV["ERRORS"]);
 
-(new Router)->dispatch();
+include_once '../routes/Web.php';
