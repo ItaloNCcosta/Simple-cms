@@ -2,7 +2,6 @@
 
 include_once dirname(__DIR__) . '/vendor/autoload.php';
 
-use routes\Router;
 use Symfony\Component\Dotenv\Dotenv;
 
 $dotenv = new Dotenv();
