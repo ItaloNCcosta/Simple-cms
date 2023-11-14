@@ -7,7 +7,7 @@ namespace App\Repositories;
 use App\Connection\DatabaseConnection;
 use PDO;
 
-class RepositoryAbstract
+abstract class RepositoryAbstract
 {
   private PDO $pdo;
 
