@@ -8,6 +8,7 @@ abstract class Controller
 {
   public function view(string $view, array $data = [])
   {
+    extract($data);
     include dirname(__DIR__, 2)."/views/{$view}.php";
   }
 }

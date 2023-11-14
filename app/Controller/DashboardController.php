@@ -17,6 +17,6 @@ class DashboardController extends Controller
 
   public function index(): void
   {
-    $this->view('layouts/app');
+    $this->view('layouts/app', ['data' => 'APENAS UM TESTE']);
   }
 }

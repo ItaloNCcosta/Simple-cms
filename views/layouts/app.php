@@ -6,8 +6,6 @@
   <title>Document</title>
 </head>
 <body>
-  <h1>VIEW</h1>
-  <h1>VIEW</h1>
-  <h1>VIEW</h1>
+  <h1><?php echo $data?></h1>
 </body>
 </html>
