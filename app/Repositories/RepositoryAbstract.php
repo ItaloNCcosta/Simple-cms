@@ -16,37 +16,44 @@ abstract class RepositoryAbstract
     $this->pdo = DatabaseConnection::openConnection();
   }
 
-  public function save(string $table, string $columns, array $values): void
+  public function save(string $table, array $columns, array $values): void
   {
-
-    $query = "INSERT INTO " . $table . "($columns) VALUES('" . implode("', '", $values) . "')";
-
-    $this->pdo->query($query);
+      $columnNames = implode(', ', $columns);
+      $placeholders = rtrim(str_repeat('?, ', count($columns)), ', ');
+  
+      $query = "INSERT INTO $table ($columnNames) VALUES ($placeholders)";
+      $stmt = $this->pdo->prepare($query);
+      $stmt->execute($values);
   }
-
+  
   public function update(string $table, array $data, int $id): void
   {
-    $formattedData = array_map(
-      function ($key, $value) {
-        return "$key = '$value'";
-      },
-      array_keys($data),
-      $data
-    );
-
-    $query = "UPDATE " . $table . " SET '" . implode(', ', $formattedData) . "' WHERE id = " . $id;
-
-    $this->pdo->query($query);
+      $formattedData = array_map(
+          function ($key, $value) {
+              return "$key = ?";
+          },
+          array_keys($data),
+          $data
+      );
+  
+      $query = "UPDATE $table SET " . implode(', ', $formattedData) . " WHERE id = ?";
+      $values = array_merge(array_values($data), [$id]);
+  
+      $stmt = $this->pdo->prepare($query);
+      $stmt->execute($values);
   }
-
+  
   public function delete(string $table, int $id, ?bool $softDelete = false): void
   {
-    $query = "DELETE FROM " . $table . " WHERE id = " . $id;
-
-    if ($softDelete === true) {
-      $query = "UPDATE " . $table . " SET deleted_at = '" . date('Y/m/d h:i:s') . "' WHERE id = " . $id;
-    }
-
-    $this->pdo->query($query);
+      if ($softDelete === true) {
+          $query = "UPDATE $table SET deleted_at = ? WHERE id = ?";
+          $values = [date('Y/m/d h:i:s'), $id];
+      } else {
+          $query = "DELETE FROM $table WHERE id = ?";
+          $values = [$id];
+      }
+  
+      $stmt = $this->pdo->prepare($query);
+      $stmt->execute($values);
   }
 }
