@@ -39,12 +39,12 @@ abstract class RepositoryAbstract
     $this->pdo->query($query);
   }
 
-  public function delete(string $table, int $id, bool $softDelete): void
+  public function delete(string $table, int $id, ?bool $softDelete = false): void
   {
     $query = "DELETE FROM " . $table . " WHERE id = " . $id;
 
     if ($softDelete === true) {
-      $query = "UPDATE " . $table . " SET deleted_at = '" . date('Y/m/d h:i:s'). "' WHERE id = " . $id;
+      $query = "UPDATE " . $table . " SET deleted_at = '" . date('Y/m/d h:i:s') . "' WHERE id = " . $id;
     }
 
     $this->pdo->query($query);
