@@ -10,7 +10,7 @@ class Router
 {
   private $rotas = [];
 
-  public function add(string $rota, $controlador): void
+  public function add(string $rota, string $controlador): void
   {
     $this->rotas[$rota] = $controlador;
   }
@@ -21,7 +21,6 @@ class Router
 
     if (array_key_exists($uri, $this->rotas)) {
       list($controlador, $metodo) = explode('@', $this->rotas[$uri]);
-      echo $controlador;
       $controladorObj = new $controlador();
       $controladorObj->$metodo();
     } else {
